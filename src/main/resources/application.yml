@@ -1,0 +1,20 @@
+server:
+  port: 9191
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: TRUCK-SERVICE
+          uri: lb://TRUCK-SERVICE
+          predicates:
+            - Path=/api/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: TRUCK-SERVICE
+                fallbackuri: forward:/truckServiceFallBack
+
+
